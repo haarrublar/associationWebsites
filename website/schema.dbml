@@ -1,0 +1,12 @@
+/* General DB Structure */
+
+
+Table users {
+  id integer
+}
+
+Table posts {
+  id integer [primary key]
+}
+
+Ref: posts.id > users.id // many-to-one
