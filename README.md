@@ -22,4 +22,4 @@ Here the website mirror to structure the backend, and DB will be its common ally
 
 ### DB
 
-Using [DBML](https://dbml.dbdiagram.io/home) I picture the database comfortably and simple, easy to use to convert to most "common" database types (by default it converts to Postgresql), and visualize (cmd+shift p, Generate Prisma UML) using [Generate Prisma UML extension](https://marketplace.visualstudio.com/items?itemName=AbianS.prisma-generate-uml) for vscode.
+Using [DBML](https://dbml.dbdiagram.io/home) I picture the database comfortably and simple, easy to use to convert to most "common" database types (by default it converts to Postgresql), and visualize (cmd+shift p, Generate Prisma UML) using [Generate Prisma UML extension](https://marketplace.visualstudio.com/items?itemName=AbianS.prisma-generate-uml) for vscode. Even though this is a Django proyect, the use of DBML is quite informative for generating the DB in Django.

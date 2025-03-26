@@ -5,7 +5,7 @@ Table admin_users {
   role varchar(50) [default: 'admin']
 }
 
-Table team_users {
+Table team_members {
   id integer [primary key]
   name varchar(100) [not null]
   email varchar(100) [not null, unique]
