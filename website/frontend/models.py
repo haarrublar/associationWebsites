@@ -1,9 +1,8 @@
 from django.db import models
 from django.utils import timezone
 
-# Create your models here.
+
 class TeamMember(models.Model):
-    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=250, null=False)
     email = models.EmailField(max_length=200,null=False,unique=True) 
     studies = models.CharField(max_length=500, null=False) 
@@ -15,17 +14,14 @@ class TeamMember(models.Model):
 
 
 class MemoirsCategories(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=120, null=False, unique=True)
+    category = models.CharField(max_length=120, null=False, unique=True)
 
 
     class Meta:
         verbose_name_plural = "Memoirs Categories"
 
     def __str__(self):
-        return f"{self.name}"
-
-
+        return f"{self.category}"
 
 
 class Memoirs(models.Model):
@@ -35,7 +31,6 @@ class Memoirs(models.Model):
         ('draft', 'Draft'),
         ('withdrawn', 'Withdrawn')
     ]
-    id = models.AutoField(primary_key=True)
 
     author = models.CharField(
         max_length=120,
@@ -48,8 +43,7 @@ class Memoirs(models.Model):
     ) 
     memoir_category_id = models.ForeignKey(
         MemoirsCategories,
-        on_delete=models.CASCADE,
-        to_field='id'
+        on_delete=models.CASCADE
     )
     date = models.DateField()
     title = models.CharField(
@@ -67,6 +61,7 @@ class Memoirs(models.Model):
     likes = models.PositiveIntegerField(default=0)
     notes = models.TextField()
     status = models.CharField(
+        max_length=50,
         choices=STATUS_CHOICES,
         default='draft'
     )
@@ -78,10 +73,7 @@ class Memoirs(models.Model):
         return f"{self.author}, {self.author_email}, {self.memoir_category_id}, {self.title}: {self.resume[:199]}"
 
 
-
-
 class MemoirsComments(models.Model):
-    # id = models.AutoField(primary_key=True)
     author = models.CharField(
         max_length=120, 
         null=False
@@ -98,8 +90,51 @@ class MemoirsComments(models.Model):
     is_deleted = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        verbose_name_plural = "Memoirs Comments"
+
     def __str__(self):
         return f"{self.author}: {self.content[:50]}"
+
+
+class AgendaCategories(models.Model):
+    category = models.CharField(max_length=300, null=False)
+
+    class Meta:
+        verbose_name_plural = "Agenda Categories"
+
+    def __str__(self):
+        return f"{self.category}"
+
+
+class Agenda(models.Model):
+
+    STATUS_CHOICES = [
+        ('publish', 'Publish'),
+        ('draft', 'Draft'),
+        ('withdrawn', 'Withdrawn')
+    ]
+
+    category_id = models.ForeignKey(
+        AgendaCategories,
+        on_delete=models.CASCADE
+    )
+    date = models.DateField()
+    event = models.CharField(
+        max_length=500, 
+        null=False
+    )
+    description = models.TextField()
+    content = models.TextField(null=False)
+    footnote = models.TextField()
+    file_path = models.TextField(help_text="Absolute path to the file on the storage",)
+    status = models.CharField(
+        max_length=50,
+        choices=STATUS_CHOICES,
+        default='draft'
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 
 
