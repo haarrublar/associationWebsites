@@ -56,7 +56,7 @@ class Migration(migrations.Migration):
                 ('status', models.CharField(choices=[('publish', 'Publish'), ('draft', 'Draft'), ('withdrawn', 'Withdrawn')], default='draft', max_length=50)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
-                ('category_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='frontend.agendacategories')),
+                ('category_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='backend.agendacategories')),
             ],
         ),
         migrations.CreateModel(
@@ -77,7 +77,7 @@ class Migration(migrations.Migration):
                 ('status', models.CharField(choices=[('publish', 'Publish'), ('draft', 'Draft'), ('withdrawn', 'Withdrawn')], default='draft', max_length=50)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
-                ('memoir_category_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='frontend.memoirscategories')),
+                ('memoir_category_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='backend.memoirscategories')),
             ],
         ),
         migrations.CreateModel(
@@ -88,7 +88,7 @@ class Migration(migrations.Migration):
                 ('content', models.CharField(max_length=2000)),
                 ('is_deleted', models.BooleanField(default=False)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('memoir_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comments', to='frontend.memoirs')),
+                ('memoir_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comments', to='backend.memoirs')),
             ],
         ),
     ]
