@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'livereload',
+    'rest_framework',
+    'corsheaders',
     'backend'
 ]
 
@@ -49,18 +51,21 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'livereload.middleware.LiveReloadScript'
+    'livereload.middleware.LiveReloadScript',
+    'corsheaders.middleware.CorsMiddleware'
 ]
+
 
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
-        'backend.permissions.DjangoModelPermissionsOrAnonReadOnly'
+        'rest_framework.permissions.AllowAny',
     ]
 }
 
+CORS_ORIGIN_ALLOW_ALL = True
 ROOT_URLCONF = 'website.urls'
 
 TEMPLATES = [

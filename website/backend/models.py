@@ -32,19 +32,23 @@ class Memoirs(models.Model):
         ('withdrawn', 'Withdrawn')
     ]
 
+    # --------- Foreign Key --------- #
+    category = models.ForeignKey(
+        MemoirsCategories,
+        on_delete=models.CASCADE,
+        related_name='memoirs',
+        default=1
+    )
+    # --------- Foreign Key --------- #
+
     author = models.CharField(
         max_length=120,
         null=False
     )
     author_email = models.EmailField(
         max_length=200,
-        null=False,
-        unique=True
+        null=False
     ) 
-    memoir_category_id = models.ForeignKey(
-        MemoirsCategories,
-        on_delete=models.CASCADE
-    )
     date = models.DateField()
     title = models.CharField(
         max_length=300, 
@@ -59,7 +63,7 @@ class Memoirs(models.Model):
     )
     visualizations = models.PositiveIntegerField(default=0)
     likes = models.PositiveIntegerField(default=0)
-    notes = models.TextField()
+    notes = models.TextField(blank=True)
     status = models.CharField(
         max_length=50,
         choices=STATUS_CHOICES,
@@ -74,14 +78,19 @@ class Memoirs(models.Model):
 
 
 class MemoirsComments(models.Model):
+    
+    # --------- Foreign Key --------- #
+    memoir = models.ForeignKey(
+        Memoirs,
+        on_delete=models.CASCADE,
+        related_name='comments',
+        default=1
+    )
+    # --------- Foreign Key --------- #
+    
     author = models.CharField(
         max_length=120, 
         null=False
-    )
-    memoir_id = models.ForeignKey(
-        Memoirs,
-        on_delete=models.CASCADE,
-        related_name='comments'
     )
     content = models.CharField(
         max_length=2000, 
@@ -115,10 +124,15 @@ class Agenda(models.Model):
         ('withdrawn', 'Withdrawn')
     ]
 
-    category_id = models.ForeignKey(
+    # --------- Foreign Key --------- #
+    category = models.ForeignKey(
         AgendaCategories,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name='agenda',
+        default=1
     )
+    # --------- Foreign Key --------- #
+
     date = models.DateField()
     event = models.CharField(
         max_length=500, 
