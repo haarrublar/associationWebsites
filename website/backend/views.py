@@ -1,7 +1,7 @@
 from django.http import HttpResponse
-from rest_framework.views import APIView
-from .models import MemoirsCategories
-from .serializer import MemoirsCategoriesSerializer
+from rest_framework.generics import ListCreateAPIView
+from .models import Memoirs, MemoirsCategories, MemoirsComments, Agenda, AgendaCategories
+from .serializer import MemoirsSerializer, MemoirsCategoriesSerializer, MemoirsCommentsSerializer, AgendaSerializer, AgendaCategoriesSerializer
 from rest_framework.response import Response
 
 
@@ -9,22 +9,25 @@ from rest_framework.response import Response
 def index(request):
 	return HttpResponse("Hello World!")
 
-class ReactView(APIView):
-	def get(self, request):
-		output_list = [{"id": item.id,
-                   "category": item.category,
-				   "memoirs": [{
-					   "title": memoir.title, 
-					   "author": memoir.author
-					} for memoir in item.memoirs.all()]}
-					for item in MemoirsCategories.objects.all()
-				]
+class MemoirsView(ListCreateAPIView):
+    queryset = Memoirs.objects.all()
+    serializer_class = MemoirsSerializer
+
+class MemoirsCategoriesView(ListCreateAPIView):
+    queryset = MemoirsCategories.objects.all()
+    serializer_class = MemoirsCategoriesSerializer
+
+class MemoirsCommentsView(ListCreateAPIView):
+    queryset = MemoirsComments.objects.all()
+    serializer_class = MemoirsCommentsSerializer
+
+class AgendaView(ListCreateAPIView):
+    queryset = Agenda.objects.all()
+    serializer_class = AgendaSerializer
+
+class AgendaCategoriesView(ListCreateAPIView):
+    queryset = AgendaCategories.objects.all()
+    serializer_class = AgendaCategoriesSerializer
 
 
-		return Response(output_list)
-	
-	def post(self, request):
-		serializer = MemoirsCategoriesSerializer(data=request.data)
-		if serializer.is_valid(raise_exception=True):
-			serializer.save()
-			return Response(serializer.data)
+

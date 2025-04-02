@@ -19,7 +19,7 @@ class MemoirsCategoriesSerializer(serializers.ModelSerializer):
 class MemoirsSerializer(serializers.ModelSerializer):
     
     comments = serializers.SerializerMethodField()
-    category = MemoirsCategoriesSerializer(
+    category_detail = MemoirsCategoriesSerializer(
         source='category',
         read_only=True
     )
@@ -43,7 +43,7 @@ class MemoirsSerializer(serializers.ModelSerializer):
             'created_at',
             'updated_at',
             'comments',
-            'category'
+            'category_detail'
         ]
 
         read_only_fields = [
@@ -93,7 +93,7 @@ class AgendaCategoriesSerializer(serializers.ModelSerializer):
         return AgendaSerializer(obj.agenda.all(),many=True).data
     
 class AgendaSerializer(serializers.ModelSerializer):
-    category = AgendaCategoriesSerializer(
+    category_detail = AgendaCategoriesSerializer(
         source='category',
         read_only=True
     )
@@ -110,7 +110,7 @@ class AgendaSerializer(serializers.ModelSerializer):
             'status',
             'created_at',
             'updated_at',
-            'category'
+            'category_detail'
         ]
 
         read_only_fields = [
