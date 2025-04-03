@@ -3,25 +3,23 @@ from .models import MemoirsCategories, Memoirs, MemoirsComments, AgendaCategorie
 
 
 class MemoirsCategoriesSerializer(serializers.ModelSerializer):
-
-    memoirs = serializers.SerializerMethodField() #adding nested categories
     class Meta:
         model = MemoirsCategories
         fields = [
             'id',
-            'category',
-            'memoirs'
+            'category'
         ]
 
-    def get_memoirs(self, obj):
-        return MemoirsSerializer(obj.memoirs.all(), many=True).data
 
 class MemoirsSerializer(serializers.ModelSerializer):
-    
-    comments = serializers.SerializerMethodField()
     category_detail = MemoirsCategoriesSerializer(
         source='category',
         read_only=True
+    )
+    category_field = serializers.PrimaryKeyRelatedField(
+        queryset=MemoirsCategories.objects.all(), 
+        write_only=True,
+        source='category'
     )
 
     class Meta:
@@ -42,8 +40,8 @@ class MemoirsSerializer(serializers.ModelSerializer):
             'status',
             'created_at',
             'updated_at',
-            'comments',
-            'category_detail'
+            'category_detail',
+            'category_field'
         ]
 
         read_only_fields = [
@@ -52,6 +50,7 @@ class MemoirsSerializer(serializers.ModelSerializer):
             'created_at',
             'updated_at'
         ]
+
 
     def get_comments(self, obj):
         comments = obj.comments.filter(is_deleted=False)  
@@ -79,14 +78,28 @@ class MemoirsCommentsSerializer(serializers.ModelSerializer):
             'updated_at'
         ]
 
+
+
+class MemoirsCategoriesWithMemoirsSerializer(serializers.ModelSerializer):
+    memoirs = MemoirsSerializer(many=True, read_only=True)
+    
+    class Meta:
+        model = MemoirsCategories
+        fields = [
+            'id',
+            'category',
+            'memoirs'        
+        ]
+
+
+
 class AgendaCategoriesSerializer(serializers.ModelSerializer):
-    agenda = serializers.SerializerMethodField() #adding nested categories
+    
     class Meta:
         model = AgendaCategories
         fields = [
             'id',
-            'category',
-            'agenda'
+            'category'
         ]
 
     def get_agenda(self, obj):
@@ -96,6 +109,11 @@ class AgendaSerializer(serializers.ModelSerializer):
     category_detail = AgendaCategoriesSerializer(
         source='category',
         read_only=True
+    )
+    category_field = serializers.PrimaryKeyRelatedField(
+        queryset=AgendaCategories.objects.all(), 
+        write_only=True,
+        source='category'
     )
 
     class Meta:
@@ -110,7 +128,8 @@ class AgendaSerializer(serializers.ModelSerializer):
             'status',
             'created_at',
             'updated_at',
-            'category_detail'
+            'category_detail',
+            'category_field'
         ]
 
         read_only_fields = [
@@ -120,4 +139,13 @@ class AgendaSerializer(serializers.ModelSerializer):
         ]
 
 
-
+class AgendaCategoriesWithAgendaSerializer(serializers.ModelSerializer):
+    agenda = AgendaSerializer(many=True, read_only=True)
+    
+    class Meta:
+        model = AgendaCategories
+        fields = [
+            'id',
+            'category',
+            'agenda'        
+        ]

@@ -37,8 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'livereload',
     'rest_framework',
+    'livereload',
     'corsheaders',
     'backend'
 ]
@@ -50,8 +50,8 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'livereload.middleware.LiveReloadScript',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware', 
+    'livereload.middleware.LiveReloadScript',   
     'corsheaders.middleware.CorsMiddleware'
 ]
 

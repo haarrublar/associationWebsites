@@ -36,8 +36,7 @@ class Memoirs(models.Model):
     category = models.ForeignKey(
         MemoirsCategories,
         on_delete=models.CASCADE,
-        related_name='memoirs',
-        default=1
+        related_name='memoirs'
     )
     # --------- Foreign Key --------- #
 
@@ -56,7 +55,7 @@ class Memoirs(models.Model):
     )
     resume = models.TextField()
     content = models.TextField(null=False)
-    file_path = models.TextField(help_text="Absolute path to the file on the storage",)
+    file_path = models.TextField(help_text="Absolute path to the file on the storage",blank=True)
     reading_time = models.PositiveIntegerField(
         default=0,
         help_text="Reading time in minutes"

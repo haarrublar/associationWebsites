@@ -1,30 +1,22 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import logoDark from "./logo-dark.svg";
+import logoLight from "./logo-light.svg";
 
 export function Welcome() {
-  const [details, setDetails] = useState([] as { 
-    description?: string;
-    status?: string;
-    date?: Date;
-  }[]);
-
-  useEffect(() => {
-    axios.get("http://localhost:8000/agenda/")
-      .then((res) => {
-        setDetails(res.data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, []);
-
-
   return (
     <main className="flex items-center justify-center pt-16 pb-4">
       <div className="flex-1 flex flex-col items-center gap-16 min-h-0">
         <header className="flex flex-col items-center gap-9">
           <div className="w-[500px] max-w-[100vw] p-4">
-            Hello
+            <img
+              src={logoLight}
+              alt="React Router"
+              className="block w-full dark:hidden"
+            />
+            <img
+              src={logoDark}
+              alt="React Router"
+              className="hidden w-full dark:block"
+            />
           </div>
         </header>
         <div className="max-w-[300px] w-full space-y-6 px-4">
@@ -32,15 +24,21 @@ export function Welcome() {
             <p className="leading-6 text-gray-700 dark:text-gray-200 text-center">
               What&apos;s next?
             </p>
-            {details.map((output, id) => (
-              <div key={id}>
-                <div>
-                  <h2>{output.description}</h2>
-                  <h2>{output.status}</h2>
-                  <h2>{output.date ? output.date.toLocaleString() : 'No date'}</h2>
-                </div>
-              </div>
-            ))}
+            <ul>
+              {resources.map(({ href, text, icon }) => (
+                <li key={href}>
+                  <a
+                    className="group flex items-center gap-3 self-stretch p-3 leading-normal text-blue-700 hover:underline dark:text-blue-500"
+                    href={href}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {icon}
+                    {text}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </nav>
         </div>
       </div>
