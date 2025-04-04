@@ -6,5 +6,4 @@ import {
   
   export default [
     index("./routes/home.tsx"),
-    route("agenda", "./routes/agenda.tsx"),
   ] satisfies RouteConfig;
