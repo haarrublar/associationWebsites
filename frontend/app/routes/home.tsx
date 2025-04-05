@@ -1,5 +1,5 @@
 import type { Route } from "./+types/home";
-import HomeIndex from "~/home/homeIndex";
+import HomeIndex from "~/home/HomeIndex";
 
 export function meta({}: Route.MetaArgs) {
   return [
