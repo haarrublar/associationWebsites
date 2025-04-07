@@ -6,7 +6,7 @@ import {
   faGoogle,
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
-import { MarqueeWrapper } from "./../../components/ui/marqueeWrapper";
+import { MarqueeWrapper } from "../../components/ui/marqueeWrapper";
 
 const PartnersLogos = () => {
   const icons = [faApple, faFacebook, faGithub, faGoogle, faTwitter];
