@@ -31,3 +31,14 @@ body {
 }
 
 
+div.rbc-calendar div.rbc-toolbar span.rbc-btn-group button {
+  text-transform: capitalize;
+}
+
+.rbc-toolbar-label {
+  text-transform: capitalize;
+}
+
+.rbc-header span {
+  text-transform: capitalize;
+}
