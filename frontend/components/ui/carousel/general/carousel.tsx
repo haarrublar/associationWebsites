@@ -2,13 +2,13 @@ import React, { useRef } from 'react'
 import { type EmblaOptionsType } from 'embla-carousel'
 import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
-import { useAutoplay } from './carouselAutoPlay'
+import { useAutoplay } from '../carouselAutoPlay'
 import {
   NextButton,
   PrevButton,
   usePrevNextButtons
-} from './carouseArrowButtons'
-import { DotButton, useDotButton } from './carouselDotButtons'
+} from '../carouseArrowButtons'
+import { DotButton, useDotButton } from '../carouselDotButtons'
 
 type PropType = {
   slides: number[]

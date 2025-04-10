@@ -12,7 +12,7 @@ const PartnersLogos = () => {
   const icons = [faApple, faFacebook, faGithub, faGoogle, faTwitter];
 
   return (
-    <section className="mx-auto w-full md:max-w-5xl lg:max-w-7xl px-0 md:px-6 lg:px-8 pt-16">
+    <section className="w-full px-0 md:px-6 lg:px-8 pt-16">
         <div className="text-center">
             <h1 className="text-2xl tracking-tight text-balance sm:text-4xl font-semibold text-gray-900 hover:bg-gray-50">
                 We Partner With

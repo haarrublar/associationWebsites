@@ -1,4 +1,3 @@
-// events.tsx
 export const events = [
   {
     start: new Date("2025-03-18T10:00:00"),

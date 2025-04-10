@@ -10,7 +10,10 @@ import {
 import type { Route } from "./+types/root";
 import "./app.css";
 import "./../components/ui/carousel/carousel.css"
+import "./../components/ui/calendar/calendar.css"
+import "./../components/ui/carousel/photos/carouselPhotos.css"
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import "./../components/ui/categories/categories.css"
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },

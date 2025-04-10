@@ -22,8 +22,8 @@ const lang = {
     work_week: "Semana de trabajo",
     day: "Día",
     month: "Mes",
-    previous: "Atrás",
-    next: "Después",
+    previous: "Anterior",
+    next: "Siguiente",
     today: "Hoy",
     agenda: "El Diario",
     showMore: (total: number) => `+${total} más`,
@@ -48,7 +48,7 @@ export default function BasicCalendar() {
   );
 
   return (
-    <div className="mx-auto max-w-7xl px-6 lg:px-8" style={{ height: "85vh" }}>
+    <div className="px-6 lg:px-8" style={{ height: "85vh" }}>
       <BigCalendar
       step={30}
       culture={culture}

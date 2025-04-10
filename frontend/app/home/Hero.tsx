@@ -73,7 +73,7 @@ const Hero = () => {
         </header>
 
         <div className="relative isolate px-6 pt-6 lg:px-8 bg-gradient-to-r from-teal-200/40 to-teal-500/5">
-          <div className="mx-auto max-w-2xl pt-24 pb-12 sm:pt-48 lg:pt-36">
+          <div className="pt-24 pb-12 sm:pt-48 lg:pt-36">
             <div className="text-center">
               <h1 className="text-5xl font-semibold tracking-tight text-balance sm:text-7xl bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">Association Name</h1>
               <div className="mt-8 text-lg font-medium text-pretty text-gray-500 sm:text-xl/8">
