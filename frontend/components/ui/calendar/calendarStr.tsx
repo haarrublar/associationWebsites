@@ -8,6 +8,13 @@ import { format, getDay, parse, startOfWeek } from "date-fns";
 import { es } from "date-fns/locale";
 import { events } from "./events";
 
+const localizer = dateFnsLocalizer({
+  format: (date: Date, formatString: string) => format(date, formatString, { locale: es }),
+  parse,
+  startOfWeek,
+  getDay,
+  locales: { es }, 
+});
 
 const lang = {
   es: {
@@ -23,13 +30,6 @@ const lang = {
   },
 };
 
-const localizer = dateFnsLocalizer({
-  format,
-  parse,
-  startOfWeek,
-  getDay,
-  locales: { es }, 
-});
 
 export default function BasicCalendar() {
   
@@ -48,12 +48,17 @@ export default function BasicCalendar() {
   );
 
   return (
-    <BigCalendar
-    culture={culture}
-    events={events}
-    localizer={localizer}
-    messages={messages} 
-    views={["month", "week"]} 
-  />
+    <div className="mx-auto max-w-7xl px-6 lg:px-8" style={{ height: "85vh" }}>
+      <BigCalendar
+      step={30}
+      culture={culture}
+      events={events}
+      localizer={localizer}
+      messages={messages} 
+      views={["month", "week"]} 
+      min={new Date(0, 0, 0, 6, 0, 0)}
+      max={new Date(0, 0, 0, 20, 0, 0)}    
+    />
+    </div>
   );
 }

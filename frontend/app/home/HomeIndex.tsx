@@ -13,9 +13,7 @@ export default function HomeIndex() {
       <PartnersLogos />
       <NewsCarousel />
       <Blog />
-      <div style={{ height: "90vh" }}>
-        <Calendar />
-      </div>
+      <Calendar />
     </>
   );
 }
