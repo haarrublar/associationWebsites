@@ -1,0 +1,43 @@
+{
+    "questions": [
+      {
+        "question": "¿Usted en cuáles de los siguientes sitios accede a Internet?",
+        "options": [
+          "Hogar",
+          "Trabajo",
+          "Institución Educativa",
+          "Centros de acceso público",
+          "Café internet",
+          "En la vivienda de otra persona",
+          "Celular personal"
+        ],
+        "audio" : "/audioQuestions/q1.mp3"
+      },
+      {
+        "question": "¿Con qué frecuencia utiliza Internet?",
+        "options": [
+          "Varias veces al día",
+          "Una vez al día",
+          "Varias veces por semana",
+          "Una vez por semana",
+          "Con menor frecuencia",
+          "Nunca"
+        ],
+        "audio" : "/audioQuestions/q2.mp3"
+      },
+      {
+        "question": "¿Para qué actividades utiliza principalmente Internet?",
+        "options": [
+          "Trabajo",
+          "Educación",
+          "Redes sociales",
+          "Entretenimiento (música, videos, juegos)",
+          "Noticias",
+          "Compras en línea",
+          "Trámites o servicios del gobierno"
+        ],
+        "audio" : "/audioQuestions/q3.mp3"
+      }
+    ]
+  }
+  

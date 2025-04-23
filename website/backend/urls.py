@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import index, MemoirsView, MemoirsCategoriesView, MemoirsCommentsView, AgendaView, AgendaCategoriesView
+from .views import index, MemoirsView, MemoirsCategoriesView, MemoirsCommentsView, AgendaView, AgendaCategoriesView, LoginViewSet
 
 urlpatterns = [
 	path("", index, name="index"),
@@ -8,5 +8,6 @@ urlpatterns = [
     path("memoirs-categories/", MemoirsCategoriesView.as_view(), name="memoirscategories"),
     path("memoirs-comments/", MemoirsCommentsView.as_view(), name="memoirscomments"),
     path("agenda/", AgendaView.as_view(), name="agenda"),
-    path("agenda-categories/", AgendaCategoriesView.as_view(), name="agendacategories")
+    path("agenda-categories/", AgendaCategoriesView.as_view(), name="agendacategories"),
+    path("login/", LoginViewSet.as_view({'post': 'create'}), name="login"),
 ]

@@ -2,7 +2,7 @@ import React from "react";
 
 export const GridBoard = () => {
   return (
-    <div className="bg-gray-50 py-24 sm:py-32">
+    <div className="py-24 sm:py-32">
       <div className="px-6 lg:px-8">
         <h2 className="text-center text-base/7 font-semibold text-indigo-600">
           Deploy faster

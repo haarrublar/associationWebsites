@@ -10,7 +10,36 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
 from pathlib import Path
+from dotenv import load_dotenv
+from dotenv import dotenv_values
+from os.path import join, dirname
+from backend.utils.gspread_utils import initialize_gspread
+
+
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv(dotenv_path)
+config = dotenv_values(dotenv_path)
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0' 
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+
+from celery.schedules import schedule
+CELERY_BEAT_SCHEDULE = {
+    'sync-users-every-4-seconds': {
+        'task': 'backend.tasks.sync_users_from_sheet_task',
+        'schedule': schedule(run_every=8),  # Seconds
+        'options': {'expires': 3},  
+    },
+}
+
+
+ENCRYPTION_KEY = config["ENCRYPTION_KEY"]
+
+if ENCRYPTION_KEY is None:
+    raise ValueError("ENCRYPTION_KEY is not set in the .env file")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,11 +66,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "backend.apps.BackendConfig",
     'rest_framework',
+    'rest_framework.authtoken',
     'livereload',
     'corsheaders',
-    'backend'
+    'knox',
+    'django_celery_beat',
+    'phone_field',
 ]
+
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -62,11 +98,22 @@ REST_FRAMEWORK = {
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
-    ]
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication',),
 }
+
+
 
 CORS_ORIGIN_ALLOW_ALL = True
 ROOT_URLCONF = 'website.urls'
+
+AUTH_USER_MODEL = 'auth.User'
+
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'backend.auth_backend.EmailAuthBackend'
+]
 
 TEMPLATES = [
     {
@@ -138,3 +185,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+GSPREAD_CLIENT = initialize_gspread() 

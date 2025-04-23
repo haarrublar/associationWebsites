@@ -1,5 +1,8 @@
 # storage files
 .DS_Store
+__pycache__
+node_modules
+celerybeat-schedule.db
 
 # Logs
 logs
@@ -14,6 +17,8 @@ node_modules
 dist
 dist-ssr
 *.local
+.env.*
+.env
 
 # Editor directories and files
 .vscode/*

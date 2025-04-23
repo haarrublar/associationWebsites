@@ -1,5 +1,90 @@
 from rest_framework import serializers
-from .models import MemoirsCategories, Memoirs, MemoirsComments, AgendaCategories, Agenda
+from .models import MemoirsCategories, Memoirs, MemoirsComments, AgendaCategories, Agenda, SurveyRespondent
+from django.contrib.auth import get_user_model
+from .models import EncryptedUserSecret
+
+
+class EncryptedUserSecretSerializer(serializers.ModelSerializer):
+    encrypted_password = serializers.CharField(write_only=True, required=True)  # Hide in response
+    decrypted_password = serializers.SerializerMethodField()  # To decrypt for admin use
+    
+    class Meta:
+        model = EncryptedUserSecret
+        fields = ['survey_respondent', 'encrypted_password', 'created_at', 'expires_at', 'decrypted_password']
+    
+    def get_decrypted_password(self, obj):
+        """
+        Decrypt the password if necessary (admin purposes).
+        """
+        return EncryptedUserSecret.decrypt_password(obj.encrypted_password)
+
+    def create(self, validated_data):
+        """
+        Override the create method to encrypt password before saving.
+        """
+        encrypted_password = EncryptedUserSecret.encrypt_password(validated_data['encrypted_password'])
+        validated_data['encrypted_password'] = encrypted_password
+        
+        return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        """
+        Override the update method to re-encrypt the password if updated.
+        """
+        if 'encrypted_password' in validated_data:
+            encrypted_password = EncryptedUserSecret.encrypt_password(validated_data['encrypted_password'])
+            validated_data['encrypted_password'] = encrypted_password
+            
+        return super().update(instance, validated_data)
+
+
+class SurveyRespondentSerializer(serializers.ModelSerializer):
+    password_validation = serializers.CharField(write_only=True, required=True)
+    
+    class Meta:
+        model = SurveyRespondent
+        fields = ['email', 'organization', 'name', 'last_name', 'national_id', 'phone_number', 'country', 'department', 'municipality', 'city', 'geolocalization', 'geolocalization_coordinate', 'created_at']
+        extra_kwargs = {
+            'password': {'write_only': True},
+        }
+    
+    def validate(self, data):
+        if data['password'] != data['password_validation']:
+            raise serializers.ValidationError({'password_validation': 'Passwords must match'})
+        
+        data.pop('password_validation')
+        return data
+
+
+
+User = get_user_model()
+class LoginSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['email', 'password']
+        
+    email = serializers.EmailField()
+    password = serializers.CharField()    
+    
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)   
+        ret.pop('password')
+        return ret
+
+
+# class RegisterSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = User
+#         fields = ('id','email','password')
+#         extra_kwargs = {
+#             'password': {'write_only': True},
+#         }
+    
+#     def create(self, validated_data):
+#         user = User.objects.create_user(**validated_data)
+#         return user
+        
+
 
 
 class MemoirsCategoriesSerializer(serializers.ModelSerializer):
@@ -9,7 +94,6 @@ class MemoirsCategoriesSerializer(serializers.ModelSerializer):
             'id',
             'category'
         ]
-
 
 class MemoirsSerializer(serializers.ModelSerializer):
     category_detail = MemoirsCategoriesSerializer(
@@ -78,8 +162,6 @@ class MemoirsCommentsSerializer(serializers.ModelSerializer):
             'updated_at'
         ]
 
-
-
 class MemoirsCategoriesWithMemoirsSerializer(serializers.ModelSerializer):
     memoirs = MemoirsSerializer(many=True, read_only=True)
     
@@ -90,8 +172,6 @@ class MemoirsCategoriesWithMemoirsSerializer(serializers.ModelSerializer):
             'category',
             'memoirs'        
         ]
-
-
 
 class AgendaCategoriesSerializer(serializers.ModelSerializer):
     
@@ -138,7 +218,6 @@ class AgendaSerializer(serializers.ModelSerializer):
             'updated_at' 
         ]
 
-
 class AgendaCategoriesWithAgendaSerializer(serializers.ModelSerializer):
     agenda = AgendaSerializer(many=True, read_only=True)
     
@@ -149,3 +228,6 @@ class AgendaCategoriesWithAgendaSerializer(serializers.ModelSerializer):
             'category',
             'agenda'        
         ]
+
+
+

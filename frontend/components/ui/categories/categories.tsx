@@ -13,7 +13,9 @@ export default function Categories() {
     if (!trackRef.current) return;
     
     const { scrollLeft, scrollWidth, clientWidth } = trackRef.current;
-    setShowPrev(scrollLeft > 0);
+    
+    // Check if scrollLeft is very close to 0 (within 2 pixels)
+    setShowPrev(scrollLeft > 5);
     setShowNext(scrollLeft < scrollWidth - clientWidth - 1);
     
     const newIndex = Math.round(scrollLeft / (slideWidth + gap));
@@ -24,6 +26,9 @@ export default function Categories() {
     const track = trackRef.current;
     if (!track) return;
 
+    // Force scroll to true 0 position when component mounts
+    track.scrollLeft = 0;
+    
     checkScroll();
     track.addEventListener('scroll', checkScroll);
     return () => track.removeEventListener('scroll', checkScroll);
@@ -32,16 +37,27 @@ export default function Categories() {
   const scrollTo = (direction: 'prev' | 'next') => {
     if (!trackRef.current) return;
     
-    const newIndex = direction === 'next' 
-      ? Math.min(currentIndex + 1, labels.length - 1)
-      : Math.max(currentIndex - 1, 0);
+    const currentScrollPosition = trackRef.current.scrollLeft;
     
-    const scrollToPosition = newIndex * (slideWidth + gap);
-    
-    trackRef.current.scrollTo({
-      left: scrollToPosition,
-      behavior: 'smooth'
-    });
+    if (direction === 'prev') {
+      // If we're already close to the beginning, scroll to exact 0
+      if (currentScrollPosition < slideWidth + gap) {
+        trackRef.current.scrollTo({
+          left: 0,
+          behavior: 'smooth'
+        });
+      } else {
+        trackRef.current.scrollTo({
+          left: currentScrollPosition - (slideWidth + gap),
+          behavior: 'smooth'
+        });
+      }
+    } else {
+      trackRef.current.scrollTo({
+        left: currentScrollPosition + (slideWidth + gap),
+        behavior: 'smooth'
+      });
+    }
   };
   
   return (
@@ -76,7 +92,7 @@ export default function Categories() {
           )}
           {showNext && (
             <button 
-              className="carousel-next" 
+              className="carousel-next right-0.5" 
               onClick={() => scrollTo("next")}
             >
               ›

@@ -14,6 +14,7 @@ import "./../components/ui/calendar/calendar.css"
 import "./../components/ui/carousel/photos/carouselPhotos.css"
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./../components/ui/categories/categories.css"
+import Navbar from "./header/navbar";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -37,7 +38,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="font-display">
+        <Navbar />
         {children}
         <ScrollRestoration />
         <Scripts />

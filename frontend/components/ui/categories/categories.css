@@ -6,7 +6,10 @@
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
     padding: 1rem 0;
+    padding-left: 3rem;
+    padding-right: 3rem;
   }
+  
   
   .carousel-slide {
     flex: 0 0 auto;
@@ -33,11 +36,11 @@
   }
   
   .carousel-prev {
-    left: 0;
+    left: -5px;
   }
   
   .carousel-next {
-    right: 0;
+    right: -5px;
   }
   
   /* Hide scrollbar */
